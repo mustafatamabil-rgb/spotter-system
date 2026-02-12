@@ -35,3 +35,4 @@ with col2:
 # أمر التحديث الإجباري
 time.sleep(st.session_state.sleep_time)
 st.rerun()
+
