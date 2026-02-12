@@ -1,35 +1,27 @@
 import streamlit as st
 import time
 
-# إعدادات الصفحة للسيرفر العالمي
-st.set_page_config(page_title="Spotter Live", layout="wide")
-
-# كود التحديث الإجباري (Force Refresh)
-if "last_heartbeat" not in st.session_state:
-    st.session_state.last_heartbeat = time.time()
+# إعداد الصفحة
+st.set_page_config(page_title="Spotter Live", layout="centered")
 
 st.title("🚗 Spotter Live Map")
-st.write(f"Server Sync Time: {time.strftime('%H:%M:%S')}")
 
-# لوحة التحكم (ستظهر لك في الرابط العالمي)
-with st.sidebar:
-    st.header("Admin Control")
-    s1 = st.toggle('Slot 1 Status', value=True)
-    s2 = st.toggle('Slot 2 Status', value=False)
+# زر تحديث يدوي للموبايل (عشان تضغط عليه ويحدث فوراً)
+if st.button('🔄 Refresh Now (اضغط للتحديث)'):
+    st.rerun()
 
-col1, col2 = st.columns(2)
-with col1:
-    if s1:
-        st.error("### SLOT 1\nOCCUPIED")
-    else:
-        st.success("### SLOT 1\nFREE")
+st.write(f"Last Sync: {time.strftime('%H:%M:%S')}")
 
-with col2:
-    if s2:
-        st.error("### SLOT 2\nOCCUPIED")
-    else:
-        st.success("### SLOT 2\nFREE")
+# نظام التحكم
+st.sidebar.header("Admin Panel")
+s1 = st.sidebar.toggle('Parking 1', value=True)
 
-# السر هنا: يخبر المتصفح (موبايل أو لابتوب) أن يعيد التحميل كل ثانية
-time.sleep(1)
+if s1:
+    st.error("### SLOT 1: OCCUPIED")
+else:
+    st.success("### SLOT 1: FREE")
+
+# كود التحديث التلقائي (الذي يحاول العمل في الخلفية)
+time.sleep(2)
 st.rerun()
+
